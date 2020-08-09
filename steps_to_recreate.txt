@@ -1,0 +1,83 @@
+// Steps:
+
+
+// Version Control
+//
+- make local git repository
+
+
+// Laravel Setup
+//
+- navigate to ../xampp/htdocs/path-to-site
+- make a new laravel project with standard authentication
+  $ laravel new --auth
+
+
+// Database
+//
+- edit users_table migration to fit our needs
+- create agencies_table migration
+  $ php artisan make:migration create_agencies_table
+- create teams_table migration
+  $ php artisan make:migration create_teams_table
+- create users_table seeder
+  $ php artisan make:seeder UserSeeder
+- create agencies_table seeder
+  $ php artisan make:seeder AgencySeeder
+- create teams_table seeder
+  $ php artisan make:seeder TeamSeeder
+- add UserSeeder, AgencySeeder, and TeamSeeder to DatabaseSeeder
+- change dates of migrations so they are in correct order
+
+
+// Models
+//
+(users model is created by default)
+- create teams model
+  $ php artisan make:model Team
+- create agencies model
+  $ php artisan make:model Agency
+
+
+// Views
+//
+- create create_user view
+- create list_users view
+
+
+// Controller
+//
+- create users controller
+  $ php artisan make:controller UserController
+- add create function
+- add show_create function
+- add show_list function
+
+
+// Routes
+//
+- create routes for each function in users controller
+
+
+// Environment
+//
+- edit .env file to fit our database-name, database-ip, and host-ip
+
+
+// Deployment
+//
+- compile project
+  $ composer update
+  $ composer install
+  $ npm install
+  $ npm run dev
+  $ php artisan key:generate (usually not necessary)
+- drop old tables and migrate fresh
+  $ php artisan migrate:fresh --seed
+
+
+// Xampp Testing
+//
+- start xampp Apache and MySQL modules
+- open "localhost"
+- viola!

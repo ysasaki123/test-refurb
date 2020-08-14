@@ -15,8 +15,8 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
+
         // always ensure user is authenticated before anything in this controller
         $this->middleware('auth');
     }
@@ -26,8 +26,8 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function show_create()
-    {
+    public function show_create() {
+
         return view('create_user');
     }
 
@@ -36,8 +36,8 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function show_list()
-    {
+    public function show_list() {
+
         $users = User::all();
         return view('list_users', compact('users'));
     }
@@ -47,8 +47,8 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function create(Request $request)
-    {
+    public function create(Request $request) {
+
         DB::table('users')->insert([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -60,7 +60,31 @@ class UserController extends Controller
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+
         $users = User::all();
         return view('list_users', compact('users'));
+    }
+
+    /**
+     * Responds to an AJAX call.
+     * Expects: { tag_input : "..." }
+     * Returns: { message : "..." }
+     *
+     * @return object
+     */
+    public function check_blue_tag_id(Request $request) {
+
+        $input = $request->tag_input;
+
+        $matches = User::where('blue_tag', '=', $input)->count();
+
+        if ($matches > 0)
+            return response()->json([
+                'message' => 'This Blue Tag ID ('.$input.') is NOT available.'
+            ], 400);
+
+        return response()->json([
+            'message' => 'This Blue Tag ID ('.$input.') is available.'
+        ], 200);
     }
 }

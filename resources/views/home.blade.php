@@ -16,7 +16,11 @@
 
                     {{ __('You are logged in!') }}
 
+                    <br>
+                    <br>
                     <a href="{{ route('user-show-create') }}" type="button" class="btn btn-primary">create a user</a>
+                    <br>
+                    <br>
                     <a href="{{ route('user-show-list') }}" type="button" class="btn btn-primary">list all users</a>
                 </div>
             </div>
